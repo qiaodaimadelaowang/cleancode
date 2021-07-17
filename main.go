@@ -13,14 +13,14 @@ func main() {
 		"/Users/tinyhuiwang/workspaces/bjca.cn.ws/api-gateway-manager",
 		"目录")
 
-	realRmove := flag.Bool("rr",
+	realRemove := flag.Bool("rr",
 		false,
 		"是否真的要删除")
 	flag.Parse()
 	fmt.Println("----- file list start-----")
 	files, _ := ioutil.ReadDir(*filePath)
 	for _, f := range files {
-		delTarget(f, *filePath, *realRmove)
+		delTarget(f, *filePath, *realRemove)
 	}
 	fmt.Println("----- file list end-----")
 }
@@ -32,7 +32,10 @@ func delTarget(current fs.FileInfo, parent string, rr bool) {
 		delTarget := parent + PthSep + "target"
 		if Exists(delTarget) {
 			fmt.Println("需要删除 target目录", delTarget)
-			//os.RemoveAll(delTarget)
+			if rr {
+				os.RemoveAll(delTarget)
+				fmt.Println("删除 target目录", delTarget, "成功")
+			}
 		}
 		return
 	}
